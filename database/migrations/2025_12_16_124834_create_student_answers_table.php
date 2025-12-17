@@ -13,9 +13,12 @@ return new class extends Migration
 {
     Schema::create('student_answers', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('quiz_attempt_id')->constrained()->onDelete('cascade');
-        $table->foreignId('question_id')->constrained()->onDelete('cascade');
-        $table->foreignId('answer_id')->nullable()->constrained()->onDelete('set null');
+        $table->unsignedBigInteger('quiz_attempt_id');
+        $table->unsignedBigInteger('question_id');
+        $table->unsignedBigInteger('answer_id')->nullable();
+        $table->foreign('quiz_attempt_id')->references('id')->on('quiz_attempts')->onDelete('cascade');
+        $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+        $table->foreign('answer_id')->references('id')->on('answers')->onDelete('set null');
         $table->text('short_answer_text')->nullable();
         $table->boolean('is_correct')->default(false);
         $table->timestamps();

@@ -13,7 +13,8 @@ return new class extends Migration
 {
     Schema::create('questions', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
+        $table->unsignedBigInteger('quiz_id');
+        $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
         $table->text('question_text');
         $table->enum('question_type', ['MCQ', 'MSQ', 'TrueFalse', 'ShortAnswer'])->default('MCQ');
         $table->integer('order_position');

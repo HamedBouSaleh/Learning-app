@@ -13,8 +13,10 @@ return new class extends Migration
 {
     Schema::create('quiz_attempts', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->unsignedBigInteger('quiz_id');
+        $table->unsignedBigInteger('user_id');
+        $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         $table->integer('score')->default(0);
         $table->integer('total_points');
         $table->decimal('percentage', 5, 2)->nullable();

@@ -13,8 +13,10 @@ return new class extends Migration
 {
     Schema::create('quizzes', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('course_id')->constrained()->onDelete('cascade');
-        $table->foreignId('lesson_id')->nullable()->constrained()->onDelete('cascade');
+        $table->unsignedBigInteger('course_id');
+        $table->unsignedBigInteger('lesson_id')->nullable();
+        $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+        $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
         $table->string('title', 200);
         $table->text('description')->nullable();
         $table->integer('passing_score')->default(70)->comment('Percentage');

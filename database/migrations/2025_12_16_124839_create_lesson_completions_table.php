@@ -13,8 +13,10 @@ return new class extends Migration
 {
     Schema::create('lesson_completions', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('lesson_id')->constrained()->onDelete('cascade');
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->unsignedBigInteger('lesson_id');
+        $table->unsignedBigInteger('user_id');
+        $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         $table->timestamp('completed_at')->useCurrent();
         $table->integer('time_spent_seconds')->nullable();
         $table->unique(['lesson_id', 'user_id']);

@@ -20,7 +20,8 @@ return new class extends Migration
             $table->enum('difficulty', ['Beginner', 'Intermediate', 'Advanced'])->default('Beginner');
             $table->string('thumbnail_url', 255)->nullable();
             $table->integer('estimated_duration')->nullable()->comment('Duration in minutes');
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('created_by');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('is_published')->default(false);
             $table->integer('enrollment_count')->default(0);
             $table->timestamps();

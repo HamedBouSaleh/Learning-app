@@ -13,8 +13,10 @@ return new class extends Migration
 {
     Schema::create('enrollments', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('course_id')->constrained()->onDelete('cascade');
+        $table->unsignedBigInteger('user_id');
+        $table->unsignedBigInteger('course_id');
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         $table->timestamp('enrolled_at')->useCurrent();
         $table->timestamp('last_accessed_at')->nullable();
         $table->enum('status', ['Active', 'Completed', 'Dropped'])->default('Active');
