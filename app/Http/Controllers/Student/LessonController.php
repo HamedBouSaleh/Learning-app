@@ -104,58 +104,70 @@ class LessonController extends Controller
     public function complete($id)
     {
         $lesson = Lesson::findOrFail($id);
+        $userId = auth()->id();
 
         // Check enrollment
         $enrollment = Enrollment::where('course_id', $lesson->course_id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->first();
 
         if (!$enrollment) {
-            return back()->with('error', 'You are not enrolled in this course.');
+            return response()->json(['error' => 'Not enrolled'], 403);
         }
 
-        // Mark as complete (or toggle)
+        // Mark as complete
         $existing = LessonCompletion::where('lesson_id', $id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->first();
 
         if (!$existing) {
             LessonCompletion::create([
                 'lesson_id' => $id,
-                'user_id' => auth()->id(),
+                'user_id' => $userId,
                 'completed_at' => now()
             ]);
 
             // Update enrollment progress
-            $this->updateCourseProgress($lesson->course_id);
-
-            return back()->with('success', 'Lesson marked as complete!');
+            $this->updateCourseProgress($lesson->course_id, $userId);
         }
 
-        return back()->with('info', 'Lesson already completed.');
+        return response()->json(['success' => true, 'message' => 'Lesson marked as complete']);
     }
 
-    private function updateCourseProgress($courseId)
+    private function updateCourseProgress($courseId, $userId)
     {
+        \Log::info("Updating course progress for user {$userId} in course {$courseId}");
+        
         $enrollment = Enrollment::where('course_id', $courseId)
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->first();
 
-        if ($enrollment) {
-            $totalLessons = Lesson::where('course_id', $courseId)->count();
-            $completedLessons = LessonCompletion::whereIn('lesson_id', function($query) use ($courseId) {
-                $query->select('id')
-                    ->from('lessons')
-                    ->where('course_id', $courseId);
-            })->where('user_id', auth()->id())->count();
-
-            $progressPercentage = $totalLessons > 0 
-                ? round(($completedLessons / $totalLessons) * 100) 
-                : 0;
-
-            $enrollment->update([
-                'progress_percentage' => $progressPercentage
-            ]);
+        if (!$enrollment) {
+            \Log::warning("No enrollment found for user {$userId} in course {$courseId}");
+            return;
         }
+
+        $totalLessons = Lesson::where('course_id', $courseId)->count();
+        \Log::info("Total lessons in course: {$totalLessons}");
+        
+        $completedLessons = LessonCompletion::whereIn('lesson_id', function($query) use ($courseId) {
+            $query->select('id')
+                ->from('lessons')
+                ->where('course_id', $courseId);
+        })->where('user_id', $userId)->count();
+        
+        \Log::info("Completed lessons for user {$userId}: {$completedLessons}");
+
+        $progressPercentage = $totalLessons > 0 
+            ? round(($completedLessons / $totalLessons) * 100) 
+            : 0;
+
+        \Log::info("Calculated progress percentage: {$progressPercentage}%");
+
+        $enrollment->update([
+            'progress_percentage' => $progressPercentage
+        ]);
+        
+        \Log::info("Updated enrollment progress to {$progressPercentage}%");
     }
 }

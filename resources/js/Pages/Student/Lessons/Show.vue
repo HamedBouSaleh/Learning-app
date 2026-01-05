@@ -218,9 +218,10 @@
                                 <button
                                     v-if="!lesson.is_completed"
                                     @click="markComplete"
-                                    class="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition"
+                                    :disabled="isMarkingComplete"
+                                    class="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Mark as Complete
+                                    {{ isMarkingComplete ? 'Marking...' : 'Mark as Complete' }}
                                 </button>
                                 <button
                                     v-if="nextLesson"
@@ -315,6 +316,7 @@ const props = defineProps({
 
 const page = usePage();
 const showProfileDropdown = ref(false);
+const isMarkingComplete = ref(false);
 
 const user = computed(() => page.props.auth.user);
 
@@ -346,10 +348,16 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 const markComplete = () => {
+    isMarkingComplete.value = true;
     router.post(route('student.lessons.complete', props.lesson.id), {}, {
-        preserveScroll: true,
         onSuccess: () => {
-            // Lesson marked as complete
+            // Lesson marked as complete - visit the lesson page again to refresh all data
+            router.visit(route('student.lessons.show', props.lesson.id));
+        },
+        onError: (errors) => {
+            isMarkingComplete.value = false;
+            console.error('Error marking lesson as complete:', errors);
+            alert('Error marking lesson as complete. Please check the console.');
         }
     });
 };

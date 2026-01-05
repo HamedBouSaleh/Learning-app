@@ -118,6 +118,9 @@ class CourseController extends Controller
             ->where('user_id', auth()->id())
             ->first();
 
+        $progress = $enrollment ? $enrollment->progress_percentage : 0;
+        \Log::info("CourseController.show - Course: {$id}, User: " . auth()->id() . ", Progress: {$progress}");
+
         return Inertia::render('Student/Courses/Show', [
             'course' => [
                 'id' => $course->id,
@@ -133,7 +136,7 @@ class CourseController extends Controller
                 'instructor_email' => $course->instructor->email,
                 'instructor_bio' => $course->instructor_bio,
                 'is_enrolled' => !!$enrollment,
-                'progress' => $enrollment ? $enrollment->progress_percentage : 0
+                'progress' => $progress
             ],
             'lessons' => $course->lessons->map(function($lesson) use ($enrollment) {
                 $isCompleted = false;

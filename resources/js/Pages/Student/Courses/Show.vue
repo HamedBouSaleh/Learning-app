@@ -470,6 +470,11 @@ const props = defineProps({
     }
 });
 
+// Debug logging
+console.log('Show.vue mounted - course prop:', props.course);
+console.log('Progress value:', props.course.progress);
+console.log('Type of progress:', typeof props.course.progress);
+
 const enrollCourse = () => {
     router.post(route('student.courses.enroll', props.course.id));
 };
