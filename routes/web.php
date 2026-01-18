@@ -7,6 +7,8 @@ use App\Http\Controllers\Instructor\DashboardController as InstructorDashboardCo
 use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
 use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
 use App\Http\Controllers\Instructor\QuizController as InstructorQuizController;
+use App\Http\Controllers\Instructor\StudentController as InstructorStudentController;
+use App\Http\Controllers\Instructor\AnalyticsController as InstructorAnalyticsController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\LessonController as StudentLessonController;
@@ -189,6 +191,13 @@ Route::middleware(['auth', 'verified', 'role:instructor,admin'])->prefix('instru
     Route::put('/quizzes/{id}', [InstructorQuizController::class, 'update'])->name('quizzes.update');
     Route::delete('/quizzes/{id}', [InstructorQuizController::class, 'destroy'])->name('quizzes.destroy');
     Route::get('/quiz-attempts/{attemptId}/grade', [InstructorQuizController::class, 'gradeAttempt'])->name('quizzes.grade');
+    
+    // Student Analytics
+    Route::get('/students', [InstructorStudentController::class, 'index'])->name('students.index');
+    Route::get('/students/{id}', [InstructorStudentController::class, 'show'])->name('students.show');
+    
+    // Quiz Analytics
+    Route::get('/analytics', [InstructorAnalyticsController::class, 'index'])->name('analytics.index');
 });
 
 // Student Routes - Only accessible by Student and Admin
