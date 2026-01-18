@@ -26,21 +26,21 @@ const submit = () => {
 
     <div class="min-h-screen flex bg-white">
         <!-- Left Side - Light Blue Branding -->
-        <div class="hidden lg:flex lg:flex-1 flex-col justify-between px-16 py-20 bg-gradient-to-br from-blue-50 to-blue-100">
+        <div class="hidden lg:flex lg:flex-1 flex-col justify-between px-14 py-16 bg-gradient-to-br from-blue-50 to-blue-100">
             <div>
-                <div class="flex items-center space-x-4 mb-16">
+                <div class="flex items-center space-x-4 mb-12">
                     <span class="text-4xl font-black text-primary-500">QuickLearn</span>
                 </div>
 
-                <h1 class="text-6xl font-black text-blue-900 mb-8 leading-tight max-w-lg">
+                <h1 class="text-5xl font-black text-blue-900 mb-6 leading-tight max-w-lg">
                     Start Your <span class="text-primary-500">Learning</span> Journey
                 </h1>
 
-                <p class="text-xl text-blue-700 mb-12 max-w-lg leading-relaxed font-medium">
+                <p class="text-lg text-blue-700 mb-10 max-w-lg leading-relaxed font-medium">
                     Join thousands of learners mastering new skills. Access world-class courses, earn certificates, and advance your career with expert instruction.
                 </p>
                 
-                <div class="space-y-6">
+                <div class="space-y-5">
                     <div class="flex items-start space-x-4 group">
                         <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-all">
                             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,25 +85,25 @@ const submit = () => {
         </div>
 
         <!-- Right Side - Registration Form -->
-        <div class="flex-1 flex items-center justify-center px-6 sm:px-10 lg:px-16 py-12 overflow-y-auto">
+        <div class="flex-1 flex items-center justify-center px-6 sm:px-8 lg:px-12 py-10 overflow-y-auto">
             <div class="max-w-md w-full">
                 <!-- Mobile Logo -->
-                <div class="text-center lg:hidden mb-8">
+                <div class="text-center lg:hidden mb-6">
                     <h2 class="text-3xl font-black text-blue-900">Sign Up</h2>
                 </div>
 
                 <!-- Form Container -->
-                <div class="bg-white border-2 border-blue-200 rounded-2xl p-8 shadow-lg">
-                    <div class="hidden lg:block mb-8">
+                <div class="bg-white border-2 border-blue-200 rounded-2xl p-7 shadow-lg">
+                    <div class="hidden lg:block mb-6">
                         <h2 class="text-3xl font-black text-blue-900">Create Account</h2>
                         <p class="text-blue-700 mt-2">Join our learning community</p>
                     </div>
 
                     <!-- Signup Form -->
-                    <form class="space-y-6" @submit.prevent="submit">
+                    <form class="space-y-5" @submit.prevent="submit">
                         <!-- Role Selection -->
                         <div>
-                            <label class="block text-sm font-bold text-blue-900 mb-3">Join as</label>
+                            <label class="block text-sm font-bold text-blue-900 mb-2.5">Join as</label>
                             <div class="grid grid-cols-2 gap-3">
                                 <button
                                     type="button"
@@ -142,7 +142,7 @@ const submit = () => {
 
                         <!-- Full Name -->
                         <div>
-                            <label for="name" class="block text-sm font-bold text-blue-900 mb-3">Your Name</label>
+                            <label for="name" class="block text-sm font-bold text-blue-900 mb-2">Your Name</label>
                             <input
                                 id="name"
                                 name="name"
@@ -158,7 +158,7 @@ const submit = () => {
 
                         <!-- Email -->
                         <div>
-                            <label for="email" class="block text-sm font-bold text-blue-900 mb-3">Email Address</label>
+                            <label for="email" class="block text-sm font-bold text-blue-900 mb-2">Email Address</label>
                             <input
                                 id="email"
                                 name="email"
@@ -174,7 +174,7 @@ const submit = () => {
 
                         <!-- Password -->
                         <div>
-                            <label for="password" class="block text-sm font-bold text-blue-900 mb-3">Password</label>
+                            <label for="password" class="block text-sm font-bold text-blue-900 mb-2">Password</label>
                             <div class="relative">
                                 <input
                                     id="password"
@@ -206,7 +206,7 @@ const submit = () => {
 
                         <!-- Confirm Password -->
                         <div>
-                            <label for="password_confirmation" class="block text-sm font-bold text-blue-900 mb-3">Confirm Password</label>
+                            <label for="password_confirmation" class="block text-sm font-bold text-blue-900 mb-2">Confirm Password</label>
                             <div class="relative">
                                 <input
                                     id="password_confirmation"
@@ -253,7 +253,7 @@ const submit = () => {
                         </button>
 
                         <!-- Sign In Link -->
-                        <div class="mt-8 pt-6 border-t-2 border-blue-200 text-center">
+                        <div class="mt-6 pt-5 border-t-2 border-blue-200 text-center">
                             <p class="text-blue-900">
                                 Already have an account?
                                 <Link :href="route('login')" class="text-blue-600 font-bold hover:text-blue-700">
